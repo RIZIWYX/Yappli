@@ -79,45 +79,6 @@ Les données démarrent **vides** : créez un compte via la page d'inscription.
 
 ---
 
-## Corrections apportées dans cette version
-
-- **Hygiène des données** : aucun compte ni mot de passe n'est versionné ; un
-  `.gitignore` exclut désormais tout le contenu de `data/` (les `.gitkeep`
-  préservent l'arborescence).
-- **Bugs fonctionnels corrigés** :
-  - connexion **par adresse mail** (mauvais indice de champ : `[2]` → `[3]`) ;
-  - **likes et commentaires** ciblent désormais le **bon post** (identifiant
-    transmis dynamiquement, au lieu d'un identifiant codé en dur) ;
-  - écriture des **commentaires** réparée (on écrivait sur un fichier ouvert en
-    lecture seule) ;
-  - cohérence de **casse** des noms de fichiers (amis / notifications), qui
-    empêchait leur affichage.
-- **Restructuration** : séparation `app/` (pages), `src/` (config + en-tête commun),
-  `assets/`, `data/`, `doc/`, `tests/` ; suppression de la duplication du `<head>`
-  via `src/header.php` ; centralisation des chemins dans `src/config.php`.
-- **Nettoyage** : nommage harmonisé en français, fautes corrigées, fichiers de
-  traitement renommés explicitement (`*_traitement.php`).
-
----
-
-## Limites connues (à traiter dans la version sécurisée)
-
-Ce dépôt est **volontairement** la version « avant sécurisation ». Points à corriger :
-
-- **Mots de passe en clair** → utiliser `password_hash()` / `password_verify()`.
-- **Sessions** : l'utilisateur courant est dans un fichier `session.txt` partagé
-  (un seul utilisateur à la fois, pas de réelle frontière d'authentification)
-  → passer à `$_SESSION`.
-- **XSS** : les sorties (bio, posts sur les profils, messages, commentaires,
-  notifications) ne sont pas systématiquement échappées → `htmlspecialchars`.
-- **Upload non restreint** : aucun contrôle de type/taille des images
-  (risque d'exécution de code) → valider extension + type MIME + taille, renommer.
-- **Dossier `data/` exposé sur le web** → le placer hors de la racine web.
-- **CSRF** : aucune protection sur les actions (formulaires) → jetons CSRF.
-- **Concurrence** : écritures concurrentes non protégées (`flock`).
-
----
-
 ## Licence
 
 Projet académique — usage pédagogique.
