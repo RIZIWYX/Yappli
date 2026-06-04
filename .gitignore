@@ -1,0 +1,16 @@
+# Contenu des données (ne pas versionner)
+data/comptes.txt
+data/posts.txt
+data/session.txt
+data/session_perso.txt
+data/personnalisation.txt
+data/amis/*
+data/notifications/*
+data/messagerie/*
+data/images/*
+
+# Garder les dossiers vides
+!data/amis/.gitkeep
+!data/notifications/.gitkeep
+!data/messagerie/.gitkeep
+!data/images/.gitkeep
