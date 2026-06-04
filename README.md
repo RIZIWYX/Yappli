@@ -6,8 +6,7 @@ les données sont persistées dans des fichiers texte plats.
 Projet réalisé dans le cadre de l'UE **Outils de Développement Web** (2024-2025,
 L1 IEEEA ) par **Rayane Graine** et **Accyl Benajaoud**.
 
-> **Version restructurée.** Cette version corrige l'organisation du dépôt, plusieurs
-> bugs fonctionnels et l'hygiène des données. Les aspects **sécurité** sont
+> Les aspects **sécurité** sont
 > volontairement laissés en l'état (voir « Limites connues ») : ce dépôt sert de
 > **base** à un second projet d'audit et de sécurisation.
 
