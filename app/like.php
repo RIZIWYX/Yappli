@@ -3,7 +3,7 @@ require_once __DIR__ . '/../src/config.php';
 
 $username = utilisateur_courant();
 if ($username === null) {
-    header('Location: connexion.html');
+    header('Location: connexion.php');
     exit;
 }
 

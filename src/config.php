@@ -39,3 +39,34 @@ function utilisateur_courant(): ?string {
     $champs = donnees_session();
     return $champs[0] ?? null;
 }
+
+/** Renvoie la ligne de personnalisation du compte connecté : [pseudo, avatar, bio]. */
+function perso_session(): array {
+    if (!file_exists(FICHIER_SESSION_PERSO)) {
+        return [];
+    }
+    return explode(';', trim((string) @file_get_contents(FICHIER_SESSION_PERSO)));
+}
+
+/** Renvoie l'avatar du compte connecté (ex. « avatar3 »). */
+function avatar_courant(): string {
+    $p = perso_session();
+    return (isset($p[1]) && $p[1] !== '') ? $p[1] : AVATAR_DEFAUT;
+}
+
+/** Renvoie la table pseudo => avatar de tous les membres. */
+function charger_avatars(): array {
+    $avatars = [];
+    if (file_exists(FICHIER_PERSO)) {
+        foreach (file(FICHIER_PERSO, FILE_IGNORE_NEW_LINES) as $l) {
+            $info = explode(';', trim($l));
+            if (count($info) >= 2 && $info[0] !== '' && $info[1] !== '') { $avatars[$info[0]] = $info[1]; }
+        }
+    }
+    return $avatars;
+}
+
+/** URL de l'image d'un avatar. */
+function url_avatar(string $avatar): string {
+    return ASSETS . '/img/avatar/' . $avatar . '.jpg';
+}

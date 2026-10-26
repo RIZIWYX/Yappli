@@ -3,7 +3,7 @@ require_once __DIR__ . '/../src/config.php';
 
 $current = donnees_session();
 if ($current === null) {
-    header('Location: connexion.html');
+    header('Location: connexion.php');
     exit;
 }
 
@@ -83,9 +83,4 @@ if (!$erreurs) {
 }
 
 require_once __DIR__ . '/../src/header.php';
-debut_page('Modifier', 'php.css');
-echo '<div>';
-foreach ($erreurs as $e) { echo $e . '<br>'; }
-echo "<a href='modifier.html'>Retour</a>";
-echo '</div>';
-fin_page();
+page_notice('Modification impossible', $erreurs, 'modifier.php', 'Retour');

@@ -15,10 +15,11 @@ L1 IEEEA ) par **Rayane Graine** et **Accyl Benajaoud**.
 ## Structure du projet
 
 ```
-Yappli/
+Yapply/
+├── index.php                  # Redirige vers app/index.php
 ├── app/                       # Pages et traitements (tout ce qui est servi)
-│   ├── index.html             # Page d'accueil publique
-│   ├── inscription.html / connexion.html / modifier.html
+│   ├── index.php              # Page d'accueil publique
+│   ├── inscription.php / connexion.php / modifier.php
 │   ├── accueil.php            # Fil d'actualité + recherche, amis, notifications
 │   ├── profil.php             # Profil d'un autre membre (recherche)
 │   ├── profil_utilisateur.php # Son propre profil
@@ -28,10 +29,12 @@ Yappli/
 │   └── *_traitement.php, post.php, like.php, commentaire.php, amis.php, ...
 │                              #   -> scripts de traitement des formulaires (POST)
 ├── src/                       # Code commun
-│   ├── config.php             # Chemins des données + fonctions partagées
-│   └── header.php             # En-tête HTML commun (<head>, fonctions debut_page/fin_page)
+│   ├── config.php             # Chemins des données + fonctions partagées (session, avatars)
+│   └── header.php             # Gabarit commun : <head>, bandeau de navigation, pied, pages de résultat
 ├── assets/
-│   ├── css/                   # Feuilles de style
+│   ├── css/
+│   │   ├── base.css           # Variables de la DA, reset, boutons, champs, cartes, bandeau
+│   │   └── pages/             # Une feuille par écran (accueil, auth, profil, discussion…)
 │   └── img/                   # logo.png + avatar/avatar1..9.jpg
 ├── data/                      # « Base de données » en fichiers (contenu NON versionné)
 │   ├── comptes.txt            # pseudo;mdp;mdp;mail;prenom;nom
@@ -64,14 +67,14 @@ Depuis la **racine du projet** :
 php -S localhost:8000
 ```
 
-Puis ouvrir : `http://localhost:8000/app/index.html`
+Puis ouvrir : `http://localhost:8000`
 
-> Important : lancer le serveur depuis la racine `Yappli/` (et **non** depuis `app/`),
+> Important : lancer le serveur depuis la racine `Yapply/` (et **non** depuis `app/`),
 > pour que `assets/`, `src/` et `data/` restent accessibles.
 
 ### Avec XAMPP / WAMP / MAMP
-Copier le dossier `Yappli/` dans `htdocs/` (XAMPP) ou `www/` (WAMP), démarrer Apache,
-puis ouvrir `http://localhost/Yappli/app/index.html`.
+Copier le dossier `Yapply/` dans `htdocs/` (XAMPP) ou `www/` (WAMP), démarrer Apache,
+puis ouvrir `http://localhost/Yapply/`.
 
 ### Permissions
 Le dossier `data/` et ses sous-dossiers doivent être accessibles en écriture par le serveur.

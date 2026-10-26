@@ -3,11 +3,9 @@ require_once __DIR__ . '/../src/header.php';
 
 $current_username = utilisateur_courant();
 if ($current_username === null) {
-    header('Location: connexion.html');
+    header('Location: connexion.php');
     exit;
 }
-
-debut_page('Yapply', 'php.css');
 
 if (isset($_POST['username']) && trim($_POST['username']) !== '') {
     $ami = trim($_POST['username']);
@@ -22,17 +20,12 @@ if (isset($_POST['username']) && trim($_POST['username']) !== '') {
     }
 
     if ($dejaAmi) {
-        echo "<div><h2>$ami est déjà dans votre liste d'amis.</h2>";
-        echo "<a href='accueil.php'>Retour à l'accueil</a><br></div>";
+        page_notice("$ami est déjà dans votre liste d'amis.", [], 'accueil.php', "Retour à l'accueil");
     } else {
         file_put_contents($fichier, $ami . "\n", FILE_APPEND);
         file_put_contents(DOSSIER_NOTIFS . '/' . $ami . '.txt', "$current_username vous a ajouté à sa liste d'amis\n", FILE_APPEND);
-        echo "<div><h2>$ami a été ajouté à vos amis !</h2>";
-        echo "<a href='accueil.php'>Retour à l'accueil</a><br></div>";
+        page_notice("$ami a été ajouté à vos amis !", [], 'accueil.php', "Retour à l'accueil", false);
     }
 } else {
-    echo "<div><h2>Aucun utilisateur spécifié.</h2>";
-    echo "<a href='accueil.php'>Retour à l'accueil</a><br></div>";
+    page_notice('Aucun utilisateur spécifié.', [], 'accueil.php', "Retour à l'accueil");
 }
-
-fin_page();
