@@ -3,6 +3,8 @@
 Petit réseau social développé en **HTML / CSS / PHP**, sans base de données SQL :
 les données sont persistées dans des fichiers texte plats.
 
+![Démo : publication, commentaires et navigation dans le réseau social](doc/demo.gif)
+
 Projet réalisé dans le cadre de l'UE **Outils de Développement Web** (2024-2025,
 L1 IEEEA ) par **Rayane Graine** et **Accyl Benajaoud**.
 
