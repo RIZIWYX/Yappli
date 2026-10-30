@@ -33,11 +33,12 @@ function db(): PDO {
         'pgsql:host=%s;port=%d;dbname=%s;sslmode=require',
         $p['host'], $p['port'] ?? 5432, $dbname
     );
-    // Neon : le nom du endpoint est requis pour certains clients sans SNI
-    $endpoint = explode('.', $p['host'])[0];
-    $dsn .= ";options='endpoint=" . str_replace('-pooler', '', $endpoint) . "'";
+    // Neon : on passe l'identifiant du endpoint dans le mot de passe
+    // (méthode officielle Neon pour les libpq anciennes, sans SNI).
+    $endpoint = str_replace('-pooler', '', explode('.', $p['host'])[0]);
+    $motDePasse = 'endpoint=' . $endpoint . ';' . urldecode($p['pass'] ?? '');
 
-    $pdo = new PDO($dsn, urldecode($p['user'] ?? ''), urldecode($p['pass'] ?? ''), [
+    $pdo = new PDO($dsn, urldecode($p['user'] ?? ''), $motDePasse, [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
