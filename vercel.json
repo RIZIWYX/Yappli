@@ -1,19 +1,14 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "builds": [
-    { "src": "index.php", "use": "vercel-php@0.7.3" },
     {
-      "src": "app/*.php",
+      "src": "api/index.php",
       "use": "vercel-php@0.7.3",
-      "config": { "includeFiles": ["src/**"] }
+      "config": { "includeFiles": ["app/**", "src/**"] }
     },
     { "src": "assets/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/", "dest": "/app/index.php" },
-    { "src": "/src/(.*)", "status": 404 },
-    { "src": "/database/(.*)", "status": 404 },
-    { "src": "/data/(.*)", "status": 404 },
     {
       "src": "/(.*)",
       "headers": {
@@ -22,6 +17,10 @@
         "X-Frame-Options": "DENY"
       },
       "continue": true
-    }
+    },
+    { "src": "/", "status": 308, "headers": { "Location": "/app/index.php" } },
+    { "src": "/(src|database|data|api)(/.*)?", "status": 404 },
+    { "src": "/app/([a-z_]+\\.php)", "dest": "/api/index.php?__page=$1" },
+    { "src": "/assets/(.*)", "dest": "/assets/$1" }
   ]
 }
