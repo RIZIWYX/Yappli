@@ -34,6 +34,4 @@ if ($trouve) {
 }
 
 require_once __DIR__ . '/../src/header.php';
-debut_page('Connexion', 'php.css');
-echo "<div><h2>Information incorrecte</h2><br><a href='connexion.html'>Retour</a></div>";
-fin_page();
+page_notice('Information incorrecte', ['Pseudo, adresse mail ou mot de passe invalide.'], 'connexion.php', 'Retour');

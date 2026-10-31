@@ -3,7 +3,7 @@ require_once __DIR__ . '/../src/header.php';
 
 $current_username = utilisateur_courant();
 if ($current_username === null) {
-    header('Location: connexion.html');
+    header('Location: connexion.php');
     exit;
 }
 
@@ -25,16 +25,24 @@ if (isset($_POST['message']) && $_POST['message'] !== '') {
     file_put_contents(DOSSIER_NOTIFS . '/' . $autre . '.txt', "$current_username vous a envoyé un message\n", FILE_APPEND);
 }
 
-debut_page('Discussion', 'discussion.css');
+$avatars = charger_avatars();
+
+debut_page('Discussion avec ' . $autre, 'discussion.css');
+barre_navigation('discussion');
 ?>
-<form method="POST">
-  <h1 class="votre_discussion">Discussions.</h1>
-  <div class="boite">
-    <div class="messages">
+<main class="page conversation-page">
+  <section class="carte-pleine chat">
+    <header class="chat-entete">
+      <a class="btn btn-icone btn-discret" href="discussion.php" title="Retour"><i class='bx bx-arrow-back'></i><span class="visually-hidden">Retour</span></a>
+      <img class="avatar-rond" src="<?php echo url_avatar($avatars[$autre] ?? AVATAR_DEFAUT); ?>" alt="">
+      <h2><?php echo $autre; ?></h2>
+    </header>
+
+    <div class="messages" id="messages">
       <?php
       $messages = file($fichier, FILE_IGNORE_NEW_LINES);
       if (empty($messages)) {
-          echo "Aucune discussion trouvée avec $autre.";
+          echo "<p class='vide'>Aucune discussion trouvée avec $autre.</p>";
       } else {
           foreach ($messages as $msg) {
               $msg = trim($msg);
@@ -44,19 +52,27 @@ debut_page('Discussion', 'discussion.css');
                   if (count($parts) === 2) {
                       $texte  = trim($parts[1]);
                       $classe = ($expediteur === $current_username) ? 'envoye' : 'recu';
-                      echo "<div class='message $classe'><strong>$expediteur :</strong> $texte</div>";
+                      echo "<div class='message $classe'><strong>$expediteur</strong>$texte</div>";
                   }
               }
           }
       }
       ?>
     </div>
-    <div class="zone-saisie">
+
+    <form class="zone-saisie" method="POST">
       <input type="hidden" name="avec" value="<?php echo $autre; ?>">
-      <input class="ecrivez" type="text" name="message" placeholder="Écrire un message" required>
-      <button class="envoie" type="submit"><i class='bx bxs-send'></i></button>
-    </div>
-  </div>
-</form>
-<a class="return" href="discussion.php">Retour</a>
+      <label class="champ">
+        <span class="visually-hidden">Votre message</span>
+        <input type="text" name="message" placeholder="Écrire un message" autocomplete="off" required autofocus>
+      </label>
+      <button class="btn btn-icone" type="submit" title="Envoyer"><i class='bx bxs-send'></i><span class="visually-hidden">Envoyer</span></button>
+    </form>
+  </section>
+</main>
+<script>
+  // Fait défiler la conversation jusqu'au dernier message
+  const zone = document.getElementById('messages');
+  if (zone) { zone.scrollTop = zone.scrollHeight; }
+</script>
 <?php fin_page(); ?>

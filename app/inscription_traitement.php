@@ -38,9 +38,4 @@ if (!$erreurs) {
 
 // Sinon : afficher les erreurs
 require_once __DIR__ . '/../src/header.php';
-debut_page('Inscription', 'php.css');
-echo '<div>';
-foreach ($erreurs as $e) { echo $e . '<br>'; }
-echo "<a href='inscription.html'>Annuler</a>";
-echo '</div>';
-fin_page();
+page_notice('Inscription impossible', $erreurs, 'inscription.php', 'Retour');

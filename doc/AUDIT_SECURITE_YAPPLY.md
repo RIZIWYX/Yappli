@@ -1,8 +1,8 @@
-# 🔒 Audit de sécurité — Yappli
+# 🔒 Audit de sécurité — Yapply
 
 > **Auteur de l'audit :** Rayane Graine
 > **Date :** Juin 2026
-> **Périmètre :** Application Yappli (réseau social PHP, version "avant sécurisation")
+> **Périmètre :** Application Yapply (réseau social PHP, version "avant sécurisation")
 > **Méthode :** Revue manuelle du code source (white-box)
 
 ---
@@ -127,7 +127,7 @@ define('DOSSIER_DONNEES', RACINE . '/data');
 **Impact :** N'importe qui sur internet peut télécharger la liste des comptes.
 
 **Correction :**
-- Placer `data/` **hors** de la racine web (ex: `/var/www/yappli_data/`)
+- Placer `data/` **hors** de la racine web (ex: `/var/www/yapply_data/`)
 - Ou bloquer l'accès via `.htaccess` :
   ```apache
   <Directory data>
@@ -328,7 +328,7 @@ if (!preg_match('/^[a-zA-Z0-9_-]+\.txt$/', $f)) continue;
 
 ## 🎓 Conclusion
 
-Yappli est un projet pédagogique cohérent avec son objectif initial (apprentissage HTML/CSS/PHP sans framework). Toutefois, **dans sa forme actuelle il ne doit pas être déployé**.
+Yapply est un projet pédagogique cohérent avec son objectif initial (apprentissage HTML/CSS/PHP sans framework). Toutefois, **dans sa forme actuelle il ne doit pas être déployé**.
 
 La bonne nouvelle : les corrections sont **toutes documentées** dans la communauté PHP, et la fonction `password_hash()` + les sessions natives PHP résolvent à elles seules trois des cinq failles critiques. Un projet de version sécurisée est donc parfaitement réalisable.
 

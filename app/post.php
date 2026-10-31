@@ -3,7 +3,7 @@ require_once __DIR__ . '/../src/config.php';
 
 $username = utilisateur_courant();
 if ($username === null) {
-    header('Location: connexion.html');
+    header('Location: connexion.php');
     exit;
 }
 
@@ -35,6 +35,4 @@ if ($texte !== '' || $photo !== null) {
 }
 
 require_once __DIR__ . '/../src/header.php';
-debut_page('Publication', 'php.css');
-echo "<div>Erreur : message vide.<br><a href='accueil.php'>Retour</a></div>";
-fin_page();
+page_notice('Publication impossible', ['Erreur : message vide.'], 'accueil.php', 'Retour');

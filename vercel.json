@@ -1,0 +1,26 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "builds": [
+    {
+      "src": "api/index.php",
+      "use": "vercel-php@0.7.3",
+      "config": { "includeFiles": ["app/**", "src/**"] }
+    },
+    { "src": "assets/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "X-Frame-Options": "DENY"
+      },
+      "continue": true
+    },
+    { "src": "/", "status": 308, "headers": { "Location": "/app/index.php" } },
+    { "src": "/(src|database|data|api)(/.*)?", "status": 404 },
+    { "src": "/app/([a-z_]+\\.php)", "dest": "/api/index.php?__page=$1" },
+    { "src": "/assets/(.*)", "dest": "/assets/$1" }
+  ]
+}

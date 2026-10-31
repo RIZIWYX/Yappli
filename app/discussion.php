@@ -3,24 +3,21 @@ require_once __DIR__ . '/../src/header.php';
 
 $current_username = utilisateur_courant();
 if ($current_username === null) {
-    header('Location: connexion.html');
+    header('Location: connexion.php');
     exit;
 }
 
 debut_page('Discussions', 'discussion.css');
+barre_navigation('discussion');
 ?>
-<h1 class="liste_de_discussions">votre liste d'amis</h1>
-<div>
+<main class="page discussions">
+  <h1>Vos discussions</h1>
+  <section class="carte">
 <?php
 if (is_dir(DOSSIER_MESSAGES)) {
-    $avatars = [];
-    if (file_exists(FICHIER_PERSO)) {
-        foreach (file(FICHIER_PERSO, FILE_IGNORE_NEW_LINES) as $l) {
-            $info = explode(';', trim($l));
-            if (count($info) >= 2) { $avatars[$info[0]] = $info[1]; }
-        }
-    }
+    $avatars = charger_avatars();
     $trouve = false;
+    echo "<ul class='liste-discussions'>";
     foreach (scandir(DOSSIER_MESSAGES) as $fichier) {
         if ($fichier === '.' || $fichier === '..') { continue; }
         $nom = str_replace('.txt', '', $fichier);
@@ -30,20 +27,21 @@ if (is_dir(DOSSIER_MESSAGES)) {
         $autre = ($parts[0] === $current_username) ? $parts[1] : $parts[0];
         $avatar = $avatars[$autre] ?? AVATAR_DEFAUT;
 
-        echo "<form action='message.php' method='post' style='margin-bottom:10px;'>";
-        echo "<div class='liste_ami'>";
-        echo "<input class='affichage_nom' type='hidden' name='avec' value='$autre'>";
-        echo "<button class='boutton_ami' type='submit'>";
-        echo "<img src='" . ASSETS . "/img/avatar/$avatar.jpg' alt='Avatar' style='width:40px; height:40px; border-radius:50%; margin-right:10px;'>";
-        echo "<span class='affichage_nom'>$autre</span>";
-        echo "</button></div></form>";
+        echo "<li><form action='message.php' method='post'>";
+        echo "<input type='hidden' name='avec' value='$autre'>";
+        echo "<button class='conversation' type='submit'>";
+        echo "<img class='avatar-rond' src='" . url_avatar($avatar) . "' alt=''>";
+        echo "<span>$autre</span><i class='bx bx-chevron-right'></i>";
+        echo "</button></form></li>";
         $trouve = true;
     }
-    if (!$trouve) { echo "<div>Aucune discussion trouvée</div>"; }
+    echo "</ul>";
+    if (!$trouve) { echo "<p class='vide'>Aucune discussion trouvée</p>"; }
 } else {
-    echo "<div>Dossier de messagerie introuvable</div>";
+    echo "<p class='vide'>Dossier de messagerie introuvable</p>";
 }
 ?>
-</div>
-<a class="return2" href="accueil.php">Retour</a>
+  </section>
+  <a class="btn btn-secondaire" href="accueil.php"><i class='bx bx-arrow-back'></i>Retour</a>
+</main>
 <?php fin_page(); ?>
